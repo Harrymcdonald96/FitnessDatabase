@@ -56,7 +56,7 @@ header {
 }
 
 .step-content {
-    font-size: 4px;
+    font-size: 8px;
     padding: 10px;
 }
 
@@ -102,7 +102,7 @@ pre {
 
 code {
     font-family: 'Fira Code', monospace;
-    font-size: 6px;
+    font-size: 8px;
 }
 
 .preview-box {
@@ -155,4 +155,5 @@ th {
     th, td {
         padding: 4px;
     }
+    
 }
