@@ -157,3 +157,32 @@ th {
     }
     
 }
+
+@media (min-width: 992px){
+    .section-title {
+        font-size: 36px;
+    }
+
+    .subtitle {
+        font-size: 18px;
+    }
+
+    .step-title {
+        font-size: 24px;
+    }
+
+    .tab-btn {
+        padding: 10px 20px;
+    }
+
+    table {
+        font-size: 8px;
+    }
+
+    th, td {
+        padding: 4px;
+    }
+    .code {
+        font-size: 12px; 
+    }
+}
