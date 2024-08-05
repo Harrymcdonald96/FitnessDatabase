@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness App Database Project</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1 class="section-title">Fitness App Database Project - SQL</h1>
+        <p class="subtitle">Showcasing SQL operations for a fitness app database.</p>
+    </header>
+    <main>
+        <div class="steps-container">
+            <div class="step">
+                <h2 class="step-title">STEP 1: Setup Database</h2>
+                <div class="step-content">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="code-1">SQL Code</button>
+                        <button class="tab-btn" data-tab="preview-1">Preview</button>
+                    </div>
+                    <div class="tab-content active" id="code-1">
+                        <pre><code class="language-sql">
+CREATE DATABASE FitnessAppDB;
+USE FitnessAppDB;
+                        </code></pre>
+                    </div>
+                    <div class="tab-content" id="preview-1">
+                        <div class="preview-box">
+                            <p>Database 'FitnessAppDB' created and selected for use.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <h2 class="step-title">STEP 2: Create Tables</h2>
+                <div class="step-content">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="code-2">SQL Code</button>
+                        <button class="tab-btn" data-tab="preview-2">Preview</button>
+                    </div>
+                    <div class="tab-content active" id="code-2">
+                        <pre><code class="language-sql">
+-- Users Table
+CREATE TABLE Users (
+    user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    membership_level VARCHAR(50) NOT NULL
+);
+
+-- Workouts Table
+CREATE TABLE Workouts (
+    workout_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    date DATE NOT NULL,
+    notes TEXT,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
+-- Exercises Table
+CREATE TABLE Exercises (
+    exercise_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    details TEXT
+);
+
+-- Workout_Exercises Table
+CREATE TABLE Workout_Exercises (
+    workout_exercise_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    workout_id INT NOT NULL,
+    exercise_id INT NOT NULL,
+    sets INT,
+    reps INT,
+    weight DECIMAL(5, 2),
+    duration TIME,
+    distance DECIMAL(5, 2),
+    calories_burned INT,
+    notes TEXT,
+    FOREIGN KEY (workout_id) REFERENCES Workouts(workout_id) ON DELETE CASCADE,
+    FOREIGN KEY (exercise_id) REFERENCES Exercises(exercise_id) ON DELETE CASCADE
+);
+
+-- Nutrition Table
+CREATE TABLE Nutrition (
+    nutrition_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    date DATE NOT NULL,
+    meal_type VARCHAR(50) NOT NULL,
+    food_items TEXT NOT NULL,
+    calories INT,
+    macronutrients TEXT,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
+-- Goals Table
+CREATE TABLE Goals (
+    goal_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    goal_description TEXT NOT NULL,
+    target_value DECIMAL(10, 2),
+    current_value DECIMAL(10, 2),
+    start_date DATE,
+    target_date DATE,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
+-- Achievements Table
+CREATE TABLE Achievements (
+    achievement_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    achievement_description TEXT NOT NULL,
+    date_achieved DATE NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+                        </code></pre>
+                    </div>
+                    <div class="tab-content" id="preview-2">
+                        <div class="preview-box">
+                            <h3>Users Table</h3>
+                            <table>
+                                <tr>
+                                    <th>user_id</th>
+                                    <th>name</th>
+                                    <th>email</th>
+                                    <th>password</th>
+                                    <th>membership_level</th>
+                                </tr>
+                            </table>
+                            <h3>Workouts Table</h3>
+                            <table>
+                                <tr>
+                                    <th>workout_id</th>
+                                    <th>user_id</th>
+                                    <th>date</th>
+                                    <th>notes</th>
+                                </tr>
+                            </table>
+                            <h3>Exercises Table</h3>
+                            <table>
+                                <tr>
+                                    <th>exercise_id</th>
+                                    <th>name</th>
+                                    <th>type</th>
+                                    <th>details</th>
+                                </tr>
+                            </table>
+                            <h3>Workout_Exercises Table</h3>
+                            <table>
+                                <tr>
+                                    <th>workout_exercise_id</th>
+                                    <th>workout_id</th>
+                                    <th>exercise_id</th>
+                                    <th>sets</th>
+                                    <th>reps</th>
+                                    <th>weight</th>
+                                    <th>duration</th>
+                                    <th>distance</th>
+                                    <th>calories_burned</th>
+                                    <th>notes</th>
+                                </tr>
+                            </table>
+                            <h3>Nutrition Table</h3>
+                            <table>
+                                <tr>
+                                    <th>nutrition_id</th>
+                                    <th>user_id</th>
+                                    <th>date</th>
+                                    <th>meal_type</th>
+                                    <th>food_items</th>
+                                    <th>calories</th>
+                                    <th>macronutrients</th>
+                                </tr>
+                            </table>
+                            <h3>Goals Table</h3>
+                            <table>
+                                <tr>
+                                    <th>goal_id</th>
+                                    <th>user_id</th>
+                                    <th>goal_description</th>
+                                    <th>target_value</th>
+                                    <th>current_value</th>
+                                    <th>start_date</th>
+                                    <th>target_date</th>
+                                </tr>
+                            </table>
+                            <h3>Achievements Table</h3>
+                            <table>
+                                <tr>
+                                    <th>achievement_id</th>
+                                    <th>user_id</th>
+                                    <th>achievement_description</th>
+                                    <th>date_achieved</th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <h2 class="step-title">STEP 3: Insert Data</h2>
+                <div class="step-content">
+                  <div class="tabs">
+                    <button class="tab-btn active" data-tab="code-3">SQL Code</button>
+                    <button class="tab-btn" data-tab="preview-3">Preview</button>
+                  </div>
+                  <div class="tab-content active" id="code-3">
+                    <pre><code class="language-sql">
+              -- Insert Data into Users Table
+              INSERT INTO Users (name, email, password, membership_level) VALUES
+              ('Alice Johnson', 'alice@example.com', 'password123', 'Free Member'),
+              ('Bob Smith', 'bob@example.com', 'password456', 'Premium Member'),
+              ('Charlie Brown', 'charlie@example.com', 'password789', 'Free Member'),
+              ('David Clark', 'david@example.com', 'password101', 'Premium Member'),
+              ('Eva Green', 'eva@example.com', 'password102', 'Free Member'),
+              ('Frank White', 'frank@example.com', 'password103', 'Premium Member'),
+              ('Grace Kelly', 'grace@example.com', 'password104', 'Free Member'),
+              ('Hank Moody', 'hank@example.com', 'password105', 'Premium Member'),
+              ('Ivy Lee', 'ivy@example.com', 'password106', 'Free Member'),
+              ('Jack Black', 'jack@example.com', 'password107', 'Premium Member');
+              
+              -- Insert Data into Exercises Table
+              INSERT INTO Exercises (name, type, details) VALUES
+              ('Push-up', 'Strength', 'A basic upper body exercise'),
+              ('Running', 'Cardiovascular', 'A cardio exercise involving running'),
+              ('Squat', 'Strength', 'A basic lower body exercise'),
+              ('Deadlift', 'Strength', 'A compound exercise targeting the lower back'),
+              ('Cycling', 'Cardiovascular', 'A cardio exercise involving cycling'),
+              ('Bench Press', 'Strength', 'A chest exercise using weights'),
+              ('Pull-up', 'Strength', 'An upper body exercise targeting the back and biceps'),
+              ('Swimming', 'Cardiovascular', 'A full-body cardio exercise'),
+              ('Yoga', 'Flexibility', 'A series of stretching and balance exercises'),
+              ('Jump Rope', 'Cardiovascular', 'A cardio exercise involving jumping rope');
+              
+              -- Insert Data into Workouts Table
+              INSERT INTO Workouts (user_id, date, notes) VALUES
+              (1, '2023-07-01', 'Morning workout'),
+              (2, '2023-07-02', 'Evening workout'),
+              (3, '2023-07-03', 'Afternoon workout'),
+              (4, '2023-07-04', 'Morning yoga session'),
+              (5, '2023-07-05', 'Evening cardio'),
+              (6, '2023-07-06', 'Afternoon weight training'),
+              (7, '2023-07-07', 'Morning HIIT workout'),
+              (8, '2023-07-08', 'Evening running'),
+              (9, '2023-07-09', 'Afternoon swimming'),
+              (10, '2023-07-10', 'Morning stretching exercises');
+              
+              -- Insert Data into Workout_Exercises Table 
+              INSERT INTO Workout_Exercises (workout_id, exercise_id, sets, reps, weight, duration, distance, calories_burned, notes) VALUES
+              (1, 1, 3, 15, NULL, NULL, NULL, 50, 'Performed in the park'),
+              (2, 2, NULL, NULL, NULL, '00:30:00', 5.0, 300, 'Treadmill running'),
+              (3, 3, 4, 12, 50.0, NULL, NULL, 100, 'Gym workout'),
+              (4, 4, 5, 10, 80.0, NULL, NULL, 200, 'Weight training session'),
+              (5, 5, NULL, NULL, NULL, '01:00:00', 20.0, 600, 'Cycling around the city'),
+              (6, 6, 3, 10, 60.0, NULL, NULL, 150, 'Bench press at the gym'),
+              (7, 7, 3, 8, 70.0, NULL, NULL, 120, 'Pull-up bar at home'),
+              (8, 8, NULL, NULL, NULL, '00:45:00', 1.0, 400, 'Swimming laps in the pool'),
+              (9, 9, NULL, NULL, NULL, '01:00:00', NULL, 200, 'Yoga session at home'),
+              (10, 10, NULL, NULL, NULL, '00:20:00', NULL, 250, 'Jump rope in the backyard');
+              
+              -- Insert Data into Nutrition Table
+              INSERT INTO Nutrition (user_id, date, meal_type, food_items, calories, macronutrients) VALUES
+              (1, '2023-07-01', 'Breakfast', 'Oatmeal, Banana', 300, 'Carbs: 50g, Protein: 10g, Fat: 5g'),
+              (2, '2023-07-02', 'Lunch', 'Chicken Salad', 400, 'Carbs: 30g, Protein: 40g, Fat: 15g'),
+              (3, '2023-07-03', 'Dinner', 'Grilled Fish, Vegetables', 500, 'Carbs: 20g, Protein: 50g, Fat: 20g'),
+              (4, '2023-07-04', 'Snack', 'Protein Bar', 200, 'Carbs: 20g, Protein: 15g, Fat: 10g'),
+              (5, '2023-07-05', 'Breakfast', 'Scrambled Eggs, Toast', 350, 'Carbs: 30g, Protein: 20g, Fat: 15g'),
+              (6, '2023-07-06', 'Lunch', 'Turkey Sandwich', 450, 'Carbs: 40g, Protein: 30g, Fat: 20g'),
+              (7, '2023-07-07', 'Dinner', 'Steak, Baked Potato', 600, 'Carbs: 50g, Protein: 40g, Fat: 30g'),
+              (8, '2023-07-08', 'Snack', 'Greek Yogurt', 150, 'Carbs: 15g, Protein: 10g, Fat: 5g'),
+              (9, '2023-07-09', 'Breakfast', 'Smoothie', 250, 'Carbs: 40g, Protein: 15g, Fat: 5g'),
+              (10, '2023-07-10', 'Lunch', 'Caesar Salad', 300, 'Carbs: 20g, Protein: 25g, Fat: 10g');
+              
+              -- Insert Data into Goals Table
+              INSERT INTO Goals (user_id, goal_description, target_value, current_value, start_date, target_date) VALUES
+              (1, 'Lose 5 kg', 5.0, 2.0, '2023-06-01', '2023-09-01'),
+              (2, 'Run 10 km', 10.0, 7.0, '2023-06-15', '2023-08-15'),
+              (3, 'Increase bench press weight by 20 kg', 20.0, 10.0, '2023-07-01', '2023-12-01'),
+              (4, 'Swim 2 km', 2.0, 1.0, '2023-05-01', '2023-10-01'),
+              (5, 'Cycle 50 km', 50.0, 30.0, '2023-04-01', '2023-09-01'),
+              (6, 'Complete a half marathon', 21.1, 15.0, '2023-03-01', '2023-11-01'),
+              (7, 'Improve flexibility', NULL, NULL, '2023-02-01', '2023-08-01'),
+              (8, 'Reduce body fat to 15%', 15.0, 18.0, '2023-01-01', '2023-06-01'),
+              (9, 'Gain 5 kg muscle mass', 5.0, 3.0, '2023-05-01', '2023-11-01'),
+              (10, 'Run 5 km in under 25 minutes', NULL, NULL, '2023-07-01', '2023-10-01');
+              
+              -- Insert Data into Achievements Table
+              INSERT INTO Achievements (user_id, achievement_description, date_achieved) VALUES
+              (1, 'Completed first 5 km run', '2023-07-01'),
+              (2, 'Lost 2 kg', '2023-06-15'),
+              (3, 'Increased bench press weight by 10 kg', '2023-07-01'),
+              (4, 'Swam 1 km', '2023-05-15'),
+              (5, 'Cycled 30 km', '2023-04-10'),
+              (6, 'Completed a 10 km run', '2023-03-20'),
+              (7, 'Improved flexibility', '2023-02-10'),
+              (8, 'Reduced body fat to 18%', '2023-01-15'),
+              (9, 'Gained 3 kg muscle mass', '2023-05-20'),
+              (10, 'Ran 5 km in under 30 minutes', '2023-07-05');
+                    </code></pre>
+                  </div>
+                  <div class="tab-content" id="preview-3">
+                    <div class="preview-box">
+                      <h3>Inserted Data Examples</h3>
+              
+                      <h4>Users Table</h4>
+                      <table>
+                        <tr>
+                          <th>user_id</th>
+                          <th>name</th>
+                          <th>email</th>
+                          <th>password</th>
+                          <th>membership_level</th>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>Alice Johnson</td>
+                          <td>alice@example.com</td>
+                          <td>password123</td>
+                          <td>Free Member</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>Bob Smith</td>
+                          <td>bob@example.com</td>
+                          <td>password456</td>
+                          <td>Premium Member</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>Charlie Brown</td>
+                          <td>charlie@example.com</td>
+                          <td>password789</td>
+                          <td>Free Member</td>
+                        </tr>
+                      </table>
+              
+                      <h4>Exercises Table</h4>
+                      <table>
+                        <tr>
+                          <th>exercise_id</th>
+                          <th>name</th>
+                          <th>type</th>
+                          <th>details</th>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>Push-up</td>
+                          <td>Strength</td>
+                          <td>A basic upper body exercise</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>Running</td>
+                          <td>Cardiovascular</td>
+                          <td>A cardio exercise involving running</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>Squat</td>
+                          <td>Strength</td>
+                          <td>A basic lower body exercise</td>
+                        </tr>
+                      </table>
+              
+                      <h4>Workouts Table</h4>
+                      <table>
+                        <tr>
+                          <th>workout_id</th>
+                          <th>user_id</th>
+                          <th>date</th>
+                          <th>notes</th>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>2023-07-01</td>
+                          <td>Morning workout</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>2</td>
+                          <td>2023-07-02</td>
+                          <td>Evening workout</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>3</td>
+                          <td>2023-07-03</td>
+                          <td>Afternoon workout</td>
+                        </tr>
+                      </table>
+              
+                      <h4>Workout_Exercises Table</h4>
+                      <table>
+                        <tr>
+                          <th>workout_exercise_id</th>
+                          <th>workout_id</th>
+                          <th>exercise_id</th>
+                          <th>sets</th>
+                          <th>reps</th>
+                          <th>weight</th>
+                          <th>duration</th>
+                          <th>distance</th>
+                          <th>calories_burned</th>
+                          <th>notes</th>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>3</td>
+                          <td>15</td>
+                          <td>NULL</td>
+                          <td>NULL</td>
+                          <td>NULL</td>
+                          <td>50</td>
+                          <td>Performed in the park</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>2</td>
+                          <td>2</td>
+                          <td>NULL</td>
+                          <td>NULL</td>
+                          <td>NULL</td>
+                          <td>00:30:00</td>
+                          <td>5.0</td>
+                          <td>300</td>
+                          <td>Treadmill running</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>3</td>
+                          <td>3</td>
+                          <td>4</td>
+                          <td>12</td>
+                          <td>50.0</td>
+                          <td>NULL</td>
+                          <td>NULL</td>
+                          <td>100</td>
+                          <td>Gym workout</td>
+                        </tr>
+                      </table>
+              
+                      <h4>Nutrition Table</h4>
+                      <table>
+                        <tr>
+                          <th>nutrition_id</th>
+                          <th>user_id</th>
+                          <th>date</th>
+                          <th>meal_type</th>
+                          <th>food_items</th>
+                          <th>calories</th>
+                          <th>macronutrients</th>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>2023-07-01</td>
+                          <td>Breakfast</td>
+                          <td>Oatmeal, Banana</td>
+                          <td>300</td>
+                          <td>Carbs: 50g, Protein: 10g, Fat: 5g</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>2</td>
+                          <td>2023-07-02</td>
+                          <td>Lunch</td>
+                          <td>Chicken Salad</td>
+                          <td>400</td>
+                          <td>Carbs: 30g, Protein: 40g, Fat: 15g</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>3</td>
+                          <td>2023-07-03</td>
+                          <td>Dinner</td>
+                          <td>Grilled Fish, Vegetables</td>
+                          <td>500</td>
+                          <td>Carbs: 20g, Protein: 50g, Fat: 20g</td>
+                        </tr>
+                      </table>
+              
+                      <h4>Goals Table</h4>
+                      <table>
+                        <tr>
+                          <th>goal_id</th>
+                          <th>user_id</th>
+                          <th>goal_description</th>
+                          <th>target_value</th>
+                          <th>current_value</th>
+                          <th>start_date</th>
+                          <th>target_date</th>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>Lose 5 kg</td>
+                          <td>5.0</td>
+                          <td>2.0</td>
+                          <td>2023-06-01</td>
+                          <td>2023-09-01</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>2</td>
+                          <td>Run 10 km</td>
+                          <td>10.0</td>
+                          <td>7.0</td>
+                          <td>2023-06-15</td>
+                          <td>2023-08-15</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>3</td>
+                          <td>Increase bench press weight by 20 kg</td>
+                          <td>20.0</td>
+                          <td>10.0</td>
+                          <td>2023-07-01</td>
+                          <td>2023-12-01</td>
+                        </tr>
+                      </table>
+              
+                      <h4>Achievements Table</h4>
+                      <table>
+                        <tr>
+                          <th>achievement_id</th>
+                          <th>user_id</th>
+                          <th>achievement_description</th>
+                          <th>date_achieved</th>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>1</td>
+                          <td>Completed first 5 km run</td>
+                          <td>2023-07-01</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>2</td>
+                          <td>Lost 2 kg</td>
+                          <td>2023-06-15</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>3</td>
+                          <td>Increased bench press weight by 10 kg</td>
+                          <td>2023-07-01</td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+
+              <div class="step">
+                <h2 class="step-title">STEP 4: Queries</h2>
+                <div class="step-content">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="code-4">SQL Code</button>
+                        <button class="tab-btn" data-tab="preview-4">Preview</button>
+                    </div>
+                    <div class="tab-content active" id="code-4">
+                        <pre><code class="language-sql">
+            -- List All Users
+            SELECT * FROM Users;
+            
+            -- List All Workouts
+            SELECT * FROM Workouts;
+            
+            -- List All Exercises 
+            SELECT * FROM Exercises;
+            
+            -- List All Workout Exercises 
+            SELECT * FROM Workout_Exercises;
+            
+            -- List All Nutrition Records 
+            SELECT * FROM Nutrition;
+            
+            -- List All Goals
+            SELECT * FROM Goals;
+            
+            -- List All Achievements
+            SELECT * FROM Achievements;
+            
+            -- Update a User's Goal
+            UPDATE Goals SET current_value = 3.5 WHERE goal_id = 1;
+                        </code></pre>
+                    </div>
+                    <div class="tab-content" id="preview-4">
+                        <div class="preview-box">
+                            <h3>Users Table</h3>
+                            <table>
+                                <tr>
+                                    <th>user_id</th>
+                                    <th>name</th>
+                                    <th>email</th>
+                                    <th>password</th>
+                                    <th>membership_level</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Alice Johnson</td>
+                                    <td>alice@example.com</td>
+                                    <td>password123</td>
+                                    <td>Free Member</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Bob Smith</td>
+                                    <td>bob@example.com</td>
+                                    <td>password456</td>
+                                    <td>Premium Member</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+            
+                            <h3>Workouts Table</h3>
+                            <table>
+                                <tr>
+                                    <th>workout_id</th>
+                                    <th>user_id</th>
+                                    <th>date</th>
+                                    <th>notes</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>2023-07-01</td>
+                                    <td>Morning workout</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>2</td>
+                                    <td>2023-07-02</td>
+                                    <td>Evening workout</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+            
+                            <h3>Exercises Table</h3>
+                            <table>
+                                <tr>
+                                    <th>exercise_id</th>
+                                    <th>name</th>
+                                    <th>type</th>
+                                    <th>details</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Push-up</td>
+                                    <td>Strength</td>
+                                    <td>A basic upper body exercise</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Running</td>
+                                    <td>Cardiovascular</td>
+                                    <td>A cardio exercise involving running</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+            
+                            <h3>Workout Exercises Table</h3>
+                            <table>
+                                <tr>
+                                    <th>workout_exercise_id</th>
+                                    <th>workout_id</th>
+                                    <th>exercise_id</th>
+                                    <th>sets</th>
+                                    <th>reps</th>
+                                    <th>weight</th>
+                                    <th>duration</th>
+                                    <th>distance</th>
+                                    <th>calories_burned</th>
+                                    <th>notes</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>3</td>
+                                    <td>15</td>
+                                    <td>NULL</td>
+                                    <td>NULL</td>
+                                    <td>NULL</td>
+                                    <td>50</td>
+                                    <td>Performed in the park</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>2</td>
+                                    <td>2</td>
+                                    <td>NULL</td>
+                                    <td>NULL</td>
+                                    <td>NULL</td>
+                                    <td>00:30:00</td>
+                                    <td>5.0</td>
+                                    <td>300</td>
+                                    <td>Treadmill running</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+            
+                            <h3>Nutrition Table</h3>
+                            <table>
+                                <tr>
+                                    <th>nutrition_id</th>
+                                    <th>user_id</th>
+                                    <th>date</th>
+                                    <th>meal_type</th>
+                                    <th>food_items</th>
+                                    <th>calories</th>
+                                    <th>macronutrients</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>2023-07-01</td>
+                                    <td>Breakfast</td>
+                                    <td>Oatmeal, Banana</td>
+                                    <td>300</td>
+                                    <td>Carbs: 50g, Protein: 10g, Fat: 5g</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>2</td>
+                                    <td>2023-07-02</td>
+                                    <td>Lunch</td>
+                                    <td>Chicken Salad</td>
+                                    <td>400</td>
+                                    <td>Carbs: 30g, Protein: 40g, Fat: 15g</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+            
+                            <h3>Goals Table</h3>
+                            <table>
+                                <tr>
+                                    <th>goal_id</th>
+                                    <th>user_id</th>
+                                    <th>goal_description</th>
+                                    <th>target_value</th>
+                                    <th>current_value</th>
+                                    <th>start_date</th>
+                                    <th>target_date</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>Lose 5 kg</td>
+                                    <td>5.0</td>
+                                    <td>2.0</td>
+                                    <td>2023-06-01</td>
+                                    <td>2023-09-01</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>2</td>
+                                    <td>Run 10 km</td>
+                                    <td>10.0</td>
+                                    <td>7.0</td>
+                                    <td>2023-06-15</td>
+                                    <td>2023-08-15</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+            
+                            <h3>Achievements Table</h3>
+                            <table>
+                                <tr>
+                                    <th>achievement_id</th>
+                                    <th>user_id</th>
+                                    <th>achievement_description</th>
+                                    <th>date_achieved</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>Completed first 5 km run</td>
+                                    <td>2023-07-01</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>2</td>
+                                    <td>Lost 2 kg</td>
+                                    <td>2023-06-15</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <h2 class="step-title">STEP 5: Update Example</h2>
+                <div class="step-content">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="code-5">SQL Code</button>
+                        <button class="tab-btn" data-tab="preview-5">Preview</button>
+                    </div>
+                    <div class="tab-content active" id="code-5">
+                        <pre><code class="language-sql">
+            -- Update a User's Goal
+            UPDATE Goals SET current_value = 3.5 WHERE goal_id = 1;
+                        </code></pre>
+                    </div>
+                    <div class="tab-content" id="preview-5">
+                        <div class="preview-box">
+                            <h3>Goals Table Before Update</h3>
+                            <table>
+                                <tr>
+                                    <th>goal_id</th>
+                                    <th>user_id</th>
+                                    <th>goal_description</th>
+                                    <th>target_value</th>
+                                    <th>current_value</th>
+                                    <th>start_date</th>
+                                    <th>target_date</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>Lose 5 kg</td>
+                                    <td>5.0</td>
+                                    <td>2.0</td>
+                                    <td>2023-06-01</td>
+                                    <td>2023-09-01</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+            
+                            <p>After running the update query:</p>
+            
+                            <h3>Goals Table After Update</h3>
+                            <table>
+                                <tr>
+                                    <th>goal_id</th>
+                                    <th>user_id</th>
+                                    <th>goal_description</th>
+                                    <th>target_value</th>
+                                    <th>current_value</th>
+                                    <th>start_date</th>
+                                    <th>target_date</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>Lose 5 kg</td>
+                                    <td>5.0</td>
+                                    <td>3.5</td>
+                                    <td>2023-06-01</td>
+                                    <td>2023-09-01</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+<div class="step">
+                <h2 class="step-title">STEP 6: Create View</h2>
+                <div class="step-content">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="code-6">SQL Code</button>
+                        <button class="tab-btn" data-tab="preview-6">Preview</button>
+                    </div>
+                    <div class="tab-content active" id="code-6">
+                        <pre><code class="language-sql">
+-- Create a View to Show Users' Workouts and Exercises
+CREATE VIEW UserWorkouts AS 
+SELECT 
+    u.name AS user_name, 
+    w.date AS workout_date, 
+    e.name AS exercise_name, 
+    we.sets, 
+    we.reps, 
+    we.weight, 
+    we.duration, 
+    we.distance, 
+    we.calories_burned 
+FROM Workout_Exercises we 
+JOIN Workouts w ON we.workout_id = w.workout_id 
+JOIN Users u ON w.user_id = u.user_id 
+JOIN Exercises e ON we.exercise_id = e.exercise_id;
+                        </code></pre>
+                    </div>
+                    <div class="tab-content" id="preview-6">
+                        <div class="preview-box">
+                            <h3>User Workouts View</h3>
+                            <table>
+                                <tr>
+                                    <th>user_name</th>
+                                    <th>workout_date</th>
+                                    <th>exercise_name</th>
+                                    <th>sets</th>
+                                    <th>reps</th>
+                                    <th>weight</th>
+                                    <th>duration</th>
+                                    <th>distance</th>
+                                    <th>calories_burned</th>
+                                </tr>
+                                <tr>
+                                    <td>Alice Johnson</td>
+                                    <td>2023-07-01</td>
+                                    <td>Push-up</td>
+                                    <td>3</td>
+                                    <td>15</td>
+                                    <td>NULL</td>
+                                    <td>NULL</td>
+                                    <td>NULL</td>
+                                    <td>50</td>
+                                </tr>
+                                <tr>
+                                    <td>Bob Smith</td>
+                                    <td>2023-07-02</td>
+                                    <td>Running</td>
+                                    <td>NULL</td>
+                                    <td>NULL</td>
+                                    <td>NULL</td>
+                                    <td>00:30:00</td>
+                                    <td>5.0</td>
+                                    <td>300</td>
+                                </tr>
+                                <tr>
+                                    <td>Charlie Brown</td>
+                                    <td>2023-07-03</td>
+                                    <td>Squat</td>
+                                    <td>4</td>
+                                    <td>12</td>
+                                    <td>50.0</td>
+                                    <td>NULL</td>
+                                    <td>NULL</td>
+                                    <td>100</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <h2 class="step-title">STEP 7: Stored Procedures</h2>
+                <div class="step-content">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="code-7">SQL Code</button>
+                        <button class="tab-btn" data-tab="preview-7">Preview</button>
+                    </div>
+                    <div class="tab-content active" id="code-7">
+                        <pre><code class="language-sql">
+DELIMITER //
+
+CREATE PROCEDURE LogWorkout (
+    IN p_user_id INT,
+    IN p_date DATE,
+    IN p_notes TEXT
+)
+BEGIN
+    INSERT INTO Workouts (user_id, date, notes)
+    VALUES (p_user_id, p_date, p_notes);
+END //
+
+DELIMITER ;
+                        </code></pre>
+                    </div>
+                    <div class="tab-content" id="preview-7">
+                        <div class="preview-box">
+                            <pre><code class="language-sql">CALL LogWorkout(4, '2023-07-11', 'Evening workout');</code></pre>
+                            <p>This would log a workout for the user with ID 4 on '2023-07-11' with the note 'Evening workout'.</p>
+                            <h3>Example:</h3>
+                            <table>
+                                <tr>
+                                    <th>workout_id</th>
+                                    <th>user_id</th>
+                                    <th>date</th>
+                                    <th>notes</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>2023-07-01</td>
+                                    <td>Morning workout</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>2</td>
+                                    <td>2023-07-02</td>
+                                    <td>Evening workout</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>3</td>
+                                    <td>2023-07-03</td>
+                                    <td>Afternoon workout</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>4</td>
+                                    <td>2023-07-11</td>
+                                    <td>Evening workout</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <h2 class="step-title">STEP 8: CASE Statement</h2>
+                <div class="step-content">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="code-8">SQL Code</button>
+                        <button class="tab-btn" data-tab="preview-8">Preview</button>
+                    </div>
+                    <div class="tab-content active" id="code-8">
+                        <pre><code class="language-sql">
+-- Categorize Users Based on Their Membership Level
+SELECT 
+    user_id, 
+    name, 
+    email, 
+    membership_level, 
+    CASE
+        WHEN membership_level = 'Free Member' THEN 'Basic Access'
+        WHEN membership_level = 'Premium Member' THEN 'Full Access'
+        ELSE 'Unknown Level'
+    END AS access_level 
+FROM Users;
+                        </code></pre>
+                    </div>
+                    <div class="tab-content" id="preview-8">
+                        <div class="preview-box">
+                            <h3>User Access Levels</h3>
+                            <table>
+                                <tr>
+                                    <th>user_id</th>
+                                    <th>name</th>
+                                    <th>email</th>
+                                    <th>membership_level</th>
+                                    <th>access_level</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Alice Johnson</td>
+                                    <td>alice@example.com</td>
+                                    <td>Free Member</td>
+                                    <td>Basic Access</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Bob Smith</td>
+                                    <td>bob@example.com</td>
+                                    <td>Premium Member</td>
+                                    <td>Full Access</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Charlie Brown</td>
+                                    <td>charlie@example.com</td>
+                                    <td>Free Member</td>
+                                    <td>Basic Access</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-sql.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
+  

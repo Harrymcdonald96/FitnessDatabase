@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+    background-color: #ffffff;
+    color: #000000;
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 100%;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 14px;
+    background: linear-gradient(45deg, #ff7e00, #ffa500);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 10px;
+    color: #333333;
+}
+
+.steps-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.step {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.step-title {
+    background-color: #ff7e00;
+    color: #ffffff;
+    padding: 5px;
+    margin: 0;
+    font-size: 6px;
+}
+
+.step-content {
+    font-size: 4px;
+    padding: 10px;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.tab-btn {
+    font-size: 6px;
+    background-color: #ffa500;
+    color: #ffffff;
+    border: none;
+    padding: 3px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tab-btn:hover {
+    background-color: #ff7e00;
+}
+
+.tab-btn.active {
+    background-color: #ff7e00;
+    color: #ffffff;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+pre {
+    margin: 0;
+    padding: 15px;
+    border-radius: 4px;
+    background-color: #eeeeee !important;
+    overflow-x: auto;
+}
+
+code {
+    font-family: 'Fira Code', monospace;
+    font-size: 6px;
+}
+
+.preview-box {
+    background-color: #eeeeee;
+    padding: 15px;
+    border-radius: 4px;
+    color: #000000;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    font-size: 6px;
+}
+
+th, td {
+    border: 1px solid #cccccc;
+    padding: 3px;
+    text-align: left;
+}
+
+th {
+    background-color: #ff7e00;
+    color: #ffffff;
+}
+
+@media (min-width: 768px) {
+    .section-title {
+        font-size: 36px;
+    }
+
+    .subtitle {
+        font-size: 18px;
+    }
+
+    .step-title {
+        font-size: 24px;
+    }
+
+    .tab-btn {
+        padding: 10px 20px;
+    }
+
+    table {
+        font-size: 8px;
+    }
+
+    th, td {
+        padding: 4px;
+    }
+}
